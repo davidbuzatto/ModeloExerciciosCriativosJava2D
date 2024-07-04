@@ -84,32 +84,32 @@ public abstract class Desenhista extends JFrame {
         g2d.drawLine( startPosX, startPosY, endPosX, endPosY );
     }
 
-    public void drawRectangle( int posX, int posY, int width, int height, Color color ) {
+    public void drawRectangleLines( int posX, int posY, int width, int height, Color color ) {
         g2d.setColor( color );
         g2d.drawRect( posX, posY, width, height );
     }
 
-    public void fillRectangle( int posX, int posY, int width, int height, Color color ) {
+    public void drawRectangle( int posX, int posY, int width, int height, Color color ) {
         g2d.setColor( color );
         g2d.fillRect( posX, posY, width, height );
     }
 
-    public void drawCircle( int centerX, int centerY, int radius, Color color ) {
+    public void drawCircleLines( int centerX, int centerY, int radius, Color color ) {
         g2d.setColor( color );
         g2d.drawOval( centerX - radius, centerY - radius, radius * 2, radius * 2 );
     }
 
-    public void fillCircle( int centerX, int centerY, int radius, Color color ) {
+    public void drawCircle( int centerX, int centerY, int radius, Color color ) {
         g2d.setColor( color );
         g2d.fillOval( centerX - radius, centerY - radius, radius * 2, radius * 2 );
     }
 
-    public void drawEllipse( int centerX, int centerY, int radiusH, int radiusV, Color color ) {
+    public void drawEllipseLines( int centerX, int centerY, int radiusH, int radiusV, Color color ) {
         g2d.setColor( color );
         g2d.drawOval( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 );
     }
 
-    public void fillEllipse( int centerX, int centerY, int radiusH, int radiusV, Color color ) {
+    public void drawEllipse( int centerX, int centerY, int radiusH, int radiusV, Color color ) {
         g2d.setColor( color );
         g2d.fillOval( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 );
     }
@@ -132,14 +132,18 @@ public abstract class Desenhista extends JFrame {
         return painelDesenho.getHeight();
     }
 
-    public void fillRectangleGradientH( int posX, int posY, int width, int height, Color color1, Color color2 ) {
+    public void drawRectangleGradientH( int posX, int posY, int width, int height, Color color1, Color color2 ) {
         g2d.setPaint( new GradientPaint( posX, posY + height / 2, color1, posX + width, posY + height / 2, color2 ) );
         g2d.fillRect( posX, posY, width, height );
     }
 
-    public void fillRectangleGradientV( int posX, int posY, int width, int height, Color color1, Color color2 ) {
+    public void drawRectangleGradientV( int posX, int posY, int width, int height, Color color1, Color color2 ) {
         g2d.setPaint( new GradientPaint( posX + width / 2, posY, color1, posX + width / 2, posY + height, color2 ) );
         g2d.fillRect( posX, posY, width, height );
+    }
+
+    public void clearBackground( Color color ) {
+        drawRectangle( 0, 0, getScreenWidth(), getScreenHeight(), color );
     }
 
     public int measureText( String text, int fontSize ) {
