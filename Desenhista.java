@@ -26,17 +26,20 @@ public abstract class Desenhista extends JFrame {
     protected String tituloJanela;
     protected boolean ativarSuavizacao;
 
-    public abstract void preparar();
     public abstract void processarEntrada();
     public abstract void desenhar();
 
-    public Desenhista() {
-        setDefaultCloseOperation( EXIT_ON_CLOSE );
-    }
+    public Desenhista( int larguraJanela, int alturaJanela, String tituloJanela, boolean ativarSuavizacao ) {
 
-    public void iniciarComponentes() {
+        this.larguraJanela = larguraJanela;
+        this.alturaJanela = alturaJanela;
+        this.tituloJanela = tituloJanela;
+        this.ativarSuavizacao = ativarSuavizacao;
+
+        processarEntrada();
 
         setTitle( tituloJanela );
+        setDefaultCloseOperation( EXIT_ON_CLOSE );
         
         painelDesenho = new PainelDesenho();
         painelDesenho.setPreferredSize( new Dimension( larguraJanela, alturaJanela ) );

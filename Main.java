@@ -10,16 +10,9 @@ public class Main extends Desenhista {
 
     // declaração de variáveis
 
-    @Override
-    public void preparar() {
-
-        // configurações iniciais da janela
-
-        larguraJanela = 800;
-        alturaJanela = 600;
-        tituloJanela = "Título da Janela";
-        ativarSuavizacao = true;
-
+    public Main() {
+        // cria uma janela de 800 pixels de largura por 600 de altura com suavização
+        super( 800, 600, "Título da Janela", true );
     }
 
     @Override
@@ -27,7 +20,7 @@ public class Main extends Desenhista {
 
         Scanner scan = new Scanner( System.in );
 
-        // entrada de dados e processamento adicional        
+        // entrada de dados e processamento adicional
 
         scan.close();
 
@@ -38,12 +31,6 @@ public class Main extends Desenhista {
 
         // lógica do desenho
 
-    }
-
-    public Main() {
-        preparar();
-        processarEntrada();
-        iniciarComponentes();
     }
 
     public static void main( String[] args ) {
