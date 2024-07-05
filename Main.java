@@ -1,3 +1,6 @@
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.Scanner;
 
 /**
@@ -7,6 +10,10 @@ import java.util.Scanner;
  * @copyright Copyright (c) 2024
  */
 public class Main extends Desenhista {
+
+    public static void main( String[] args ) {
+        new Main();
+    }
 
     // declaração de variáveis
 
@@ -30,11 +37,80 @@ public class Main extends Desenhista {
     public void desenhar() {
 
         // lógica do desenho
+        drawRing( 100, 100, 50, 100, 45, 270, 30, BLACK );
 
     }
 
-    public static void main( String[] args ) {
-        new Main();
+    @Override
+    public void tratarMouse( MouseEvent e, MouseEventType met ) {
+
+        // tratamento dos eventos do mouse
+        switch ( met ) {
+
+            // clicou
+            case CLICKED: {
+                break;
+            }
+
+            // pressionou
+            case PRESSED: {
+                break;
+            }
+
+            // soltou
+            case RELEASED: {
+                break;
+            }
+
+            // entrou
+            case ENTERED: {
+                break;
+            }
+
+            // saiu
+            case EXITED: {
+                break;
+            }
+
+            // arrastou
+            case DRAGGED: {
+                break;
+            }
+
+            // moveu
+            case MOVED: {
+                break;
+            }
+
+        }
+
+    }
+
+    @Override
+    public void tratarRodaRolagemMouse( MouseWheelEvent e ) {
+        
+        // tratamento caso a roda de rolagem do mouse girou
+
+    }
+
+    @Override
+    public void tratarTeclado( KeyEvent e, KeyboardEventType ket ) {
+
+        // tratamento dos eventos do teclado
+        switch ( ket ) {
+
+            // tecla pressionada
+            case PRESSED: {
+                break;
+            }
+
+            // tecla liberada
+            case RELEASED: {
+                break;
+            }
+
+        }
+
     }
 
 }

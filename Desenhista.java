@@ -6,6 +6,19 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,19 +34,17 @@ public abstract class Desenhista extends JFrame {
     private PainelDesenho painelDesenho;
     private Graphics2D g2d;
 
-    protected int larguraJanela;
-    protected int alturaJanela;
-    protected String tituloJanela;
-    protected boolean ativarSuavizacao;
+    private boolean ativarSuavizacao;
 
     public abstract void processarEntrada();
     public abstract void desenhar();
 
+    public abstract void tratarMouse( MouseEvent e, MouseEventType met );
+    public abstract void tratarRodaRolagemMouse( MouseWheelEvent e );
+    public abstract void tratarTeclado( KeyEvent e, KeyboardEventType ket );
+
     public Desenhista( int larguraJanela, int alturaJanela, String tituloJanela, boolean ativarSuavizacao ) {
 
-        this.larguraJanela = larguraJanela;
-        this.alturaJanela = alturaJanela;
-        this.tituloJanela = tituloJanela;
         this.ativarSuavizacao = ativarSuavizacao;
 
         processarEntrada();
@@ -43,6 +54,8 @@ public abstract class Desenhista extends JFrame {
         
         painelDesenho = new PainelDesenho();
         painelDesenho.setPreferredSize( new Dimension( larguraJanela, alturaJanela ) );
+        painelDesenho.setFocusable( true );
+        prepararEventosPainel( painelDesenho );
 
         add( painelDesenho, BorderLayout.CENTER );
         pack();
@@ -70,54 +83,50 @@ public abstract class Desenhista extends JFrame {
 
     }
 
-    public void setGraphics2D( Graphics2D g2d ) {
-        this.g2d = g2d;
-    }
-
-    public void drawPixel( int posX, int posY, Color color ) {
+    public void drawPixel( double posX, double posY, Color color ) {
         g2d.setColor( color );
-        g2d.drawLine( posX, posY, posX, posY );
+        g2d.draw( new Line2D.Double( posX, posY, posX, posY ) );
     }
 
-    public void drawLine( int startPosX, int startPosY, int endPosX, int endPosY, Color color ) {
+    public void drawLine( double startPosX, double startPosY, double endPosX, double endPosY, Color color ) {
         g2d.setColor( color );
-        g2d.drawLine( startPosX, startPosY, endPosX, endPosY );
+        g2d.draw( new Line2D.Double( startPosX, startPosY, endPosX, endPosY ) );
     }
 
-    public void drawRectangleLines( int posX, int posY, int width, int height, Color color ) {
+    public void drawRectangleLines( double posX, double posY, double width, double height, Color color ) {
         g2d.setColor( color );
-        g2d.drawRect( posX, posY, width, height );
+        g2d.draw( new Rectangle2D.Double( posX, posY, width, height ) );
     }
 
-    public void drawRectangle( int posX, int posY, int width, int height, Color color ) {
+    public void drawRectangle( double posX, double posY, double width, double height, Color color ) {
         g2d.setColor( color );
-        g2d.fillRect( posX, posY, width, height );
+        g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
     }
 
-    public void drawCircleLines( int centerX, int centerY, int radius, Color color ) {
+    public void drawCircleLines( double centerX, double centerY, double radius, Color color ) {
         g2d.setColor( color );
-        g2d.drawOval( centerX - radius, centerY - radius, radius * 2, radius * 2 );
+        g2d.draw( new Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ) );
     }
 
-    public void drawCircle( int centerX, int centerY, int radius, Color color ) {
+    public void drawCircle( double centerX, double centerY, double radius, Color color ) {
         g2d.setColor( color );
-        g2d.fillOval( centerX - radius, centerY - radius, radius * 2, radius * 2 );
+        g2d.fill( new Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ) );
     }
 
-    public void drawEllipseLines( int centerX, int centerY, int radiusH, int radiusV, Color color ) {
+    public void drawEllipseLines( double centerX, double centerY, double radiusH, double radiusV, Color color ) {
         g2d.setColor( color );
-        g2d.drawOval( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 );
+        g2d.draw( new Ellipse2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 ) );
     }
 
-    public void drawEllipse( int centerX, int centerY, int radiusH, int radiusV, Color color ) {
+    public void drawEllipse( double centerX, double centerY, double radiusH, double radiusV, Color color ) {
         g2d.setColor( color );
-        g2d.fillOval( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 );
+        g2d.fill( new Ellipse2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 ) );
     }
 
-    public void drawText( String text, int posX, int posY, int fontSize, Color color ) {
+    public void drawText( String text, double posX, double posY, int fontSize, Color color ) {
         g2d.setColor( color );
         g2d.setFont( new Font( Font.MONOSPACED, Font.BOLD, fontSize ) );
-        g2d.drawString( text, posX, posY );
+        g2d.drawString( text, (int) posX, (int) posY );
     }
 
     public String textFormat( String text, Object... args  ) {
@@ -132,23 +141,277 @@ public abstract class Desenhista extends JFrame {
         return painelDesenho.getHeight();
     }
 
-    public void drawRectangleGradientH( int posX, int posY, int width, int height, Color color1, Color color2 ) {
-        g2d.setPaint( new GradientPaint( posX, posY + height / 2, color1, posX + width, posY + height / 2, color2 ) );
-        g2d.fillRect( posX, posY, width, height );
+    public void drawRectangleGradientH( double posX, double posY, double width, double height, Color color1, Color color2 ) {
+        g2d.setPaint( new GradientPaint( (int) posX, (int) (posY + height / 2), color1, (int) (posX + width), (int) (posY + height / 2), color2 ) );
+        g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
     }
 
-    public void drawRectangleGradientV( int posX, int posY, int width, int height, Color color1, Color color2 ) {
-        g2d.setPaint( new GradientPaint( posX + width / 2, posY, color1, posX + width / 2, posY + height, color2 ) );
-        g2d.fillRect( posX, posY, width, height );
+    public void drawRectangleGradientV( double posX, double posY, double width, double height, Color color1, Color color2 ) {
+        g2d.setPaint( new GradientPaint( (int) (posX + width / 2), (int) posY, color1, (int) (posX + width / 2), (int) (posY + height), color2 ) );
+        g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
     }
 
     public void clearBackground( Color color ) {
         drawRectangle( 0, 0, getScreenWidth(), getScreenHeight(), color );
     }
 
-    public int measureText( String text, int fontSize ) {
+    public double measureText( String text, int fontSize ) {
         g2d.setFont( new Font( Font.MONOSPACED, Font.PLAIN, fontSize ) );
         return g2d.getFontMetrics().stringWidth( text );
+    }
+
+    public void drawCircleSectorLines( double centerX, double centerY, double radius, double startAngle, double endAngle, Color color ) {
+        g2d.setColor( color );
+        g2d.draw( new Arc2D.Double( centerX - radius / 2, centerY - radius / 2, radius * 2, radius * 2, startAngle, endAngle, Arc2D.PIE ) );
+    }
+
+    public void drawCircleSector( double centerX, double centerY, double radius, double startAngle, double endAngle, Color color ) {
+        g2d.setColor( color );
+        g2d.fill( new Arc2D.Double( centerX - radius / 2, centerY - radius / 2, radius * 2, radius * 2, startAngle, endAngle, Arc2D.PIE ) );
+    }
+
+    public void drawRingLines( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
+        processRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments, color, true );
+    }
+
+    public void drawRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
+        processRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments, color, false );
+    }
+
+    private void processRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color, boolean draw ) {
+
+        g2d.setColor( color );
+
+        Path2D path = new Path2D.Double();
+        double currentAngle = -startAngle;
+        double angleIncrement = Math.abs( endAngle - startAngle ) / segments;
+
+        double rad = Math.toRadians( currentAngle );
+        double x = centerX + innerRadius * Math.cos( rad );
+        double y = centerY + innerRadius * Math.sin( rad );
+        path.moveTo( x, y );
+
+        for ( int i = 0; i < segments; i++ ) {
+
+            currentAngle -= angleIncrement;
+
+            rad = Math.toRadians( currentAngle );
+            x = centerX + innerRadius * Math.cos( rad );
+            y = centerY + innerRadius * Math.sin( rad );
+
+            path.lineTo( x, y );
+
+        }
+
+        rad = Math.toRadians( currentAngle );
+        x = centerX + outerRadius * Math.cos( rad );
+        y = centerY + outerRadius * Math.sin( rad );
+        path.lineTo( x, y );
+
+        for ( int i = 0; i < segments; i++ ) {
+
+            currentAngle += angleIncrement;
+
+            rad = Math.toRadians( currentAngle );
+            x = centerX + outerRadius * Math.cos( rad );
+            y = centerY + outerRadius * Math.sin( rad );
+
+            path.lineTo( x, y );
+
+        }
+
+        path.closePath();
+
+        if ( draw ) {
+            g2d.draw( path );
+        } else {
+            g2d.fill( path );
+        }
+
+    }
+
+    public void drawRectanglePro( double posX, double posY, double width, double height, double originX, double originY, double rotation, Color color ) {
+
+        Graphics2D gc = (Graphics2D) g2d.create();
+        gc.setColor( color );
+
+        gc.rotate( Math.toRadians( -rotation ), originX, originY );
+        gc.fill( new Rectangle2D.Double( posX, posY, width, height ) );
+
+        gc.dispose();
+
+    }
+
+    public void drawRectangleRoundedLines( double posX, double posY, double width, double height, double roundness, Color color ) {
+        g2d.setColor( color );
+        g2d.draw( new RoundRectangle2D.Double( posX, posY, width, height, roundness, roundness ) );
+    }
+
+    public void drawRectangleRounded( double posX, double posY, double width, double height, double roundness, Color color ) {
+        g2d.setColor( color );
+        g2d.fill( new RoundRectangle2D.Double( posX, posY, width, height, roundness, roundness ) );
+    }
+
+    public void drawTriangleLines( double v1x, double v1y, double v2x, double v2y, double v3x, double v3y, Color color ) {
+        processTriangle( v1x, v1y, v2x, v2y, v3x, v3y, color, true );
+    }
+
+    public void drawTriangle( double v1x, double v1y, double v2x, double v2y, double v3x, double v3y, Color color ) {
+        processTriangle( v1x, v1y, v2x, v2y, v3x, v3y, color, false );
+    }
+
+    private void processTriangle( double v1x, double v1y, double v2x, double v2y, double v3x, double v3y, Color color, boolean draw ) {
+
+        g2d.setColor( color );
+
+        Path2D path = new Path2D.Double();
+        path.moveTo( v1x, v1y );
+        path.lineTo( v2x, v2y );
+        path.lineTo( v3x, v3y );
+        path.closePath();
+
+        if ( draw ) {
+            g2d.draw( path );
+        } else {
+            g2d.fill( path );
+        }
+
+    }
+
+    public void drawPolyLines( double centerX, double centerY, double sides, double radius, double rotation, Color color ) {
+        processPoly( centerX, centerY, sides, radius, rotation, color, true );
+    }
+
+    public void drawPoly( double centerX, double centerY, double sides, double radius, double rotation, Color color ) {
+        processPoly( centerX, centerY, sides, radius, rotation, color, false );
+    }
+
+    private void processPoly( double centerX, double centerY, double sides, double radius, double rotation, Color color, boolean draw ) {
+
+        g2d.setColor( color );
+
+        Path2D path = new Path2D.Double();
+        double currentAngle = -rotation;
+        double angleIncrement = 360.0 / sides;
+
+        for ( int i = 0; i < sides; i++ ) {
+
+            double rad = Math.toRadians( currentAngle );
+            double x = centerX + radius * Math.cos( rad );
+            double y = centerY + radius * Math.sin( rad );
+
+            if ( i == 0 ) {
+                path.moveTo( x, y );
+            } else {
+                path.lineTo( x, y );
+            }
+
+            currentAngle -= angleIncrement;
+
+        }
+
+        path.closePath();
+
+        if ( draw ) {
+            g2d.draw( path );
+        } else {
+            g2d.fill( path );
+        }
+
+    }
+
+    public void drawSplineSegmentLinear( double p1x, double p1y, double p2x, double p2y, double thick, Color color ) {
+
+    }
+
+    public Point2D drawSplineSegmentLinear( double p1x, double p1y, double p2x, double p2y, double t ) {
+        return null;
+    }
+
+    public void drawSplineSegmentBezierQuadratic( double p1x, double p1y, double c1x, double c1y, double p2x, double p2y, double thick, Color color ) {
+
+    }
+
+    public Point2D getSplinePointBezierQuad( double p1x, double p1y, double c1x, double c1y, double p2x, double p2y, double t ) {
+        return null;
+    }
+
+    public void drawSplineSegmentBezierCubic( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, double thick, Color color ) {
+
+    }
+
+    public Point2D getSplinePointBezierCubic( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, double t ) {
+        return null;
+    }
+
+    private void prepararEventosPainel( PainelDesenho painelDesenho ) {
+
+        painelDesenho.addMouseListener( new MouseListener() {
+
+            @Override
+            public void mouseClicked( MouseEvent e ) {
+                tratarMouse( e, MouseEventType.CLICKED );
+            }
+
+            @Override
+            public void mousePressed( MouseEvent e ) {
+                tratarMouse( e, MouseEventType.PRESSED );
+            }
+
+            @Override
+            public void mouseReleased( MouseEvent e ) {
+                tratarMouse( e, MouseEventType.RELEASED );
+            }
+
+            @Override
+            public void mouseEntered( MouseEvent e ) {
+                tratarMouse( e, MouseEventType.ENTERED );
+            }
+
+            @Override
+            public void mouseExited( MouseEvent e ) {
+                tratarMouse( e, MouseEventType.EXITED );
+            }
+            
+        });
+
+        painelDesenho.addMouseMotionListener( new MouseMotionListener() {
+
+            @Override
+            public void mouseDragged( MouseEvent e ) {
+                tratarMouse( e, MouseEventType.DRAGGED );
+            }
+
+            @Override
+            public void mouseMoved( MouseEvent e ) {
+                tratarMouse( e, MouseEventType.MOVED );
+            }
+            
+        });
+
+        painelDesenho.addMouseWheelListener( new MouseWheelListener() {
+
+            @Override
+            public void mouseWheelMoved( MouseWheelEvent e ) {
+                tratarRodaRolagemMouse( e );
+            }
+            
+        });
+
+        painelDesenho.addKeyListener( new KeyAdapter() {
+
+            @Override
+            public void keyPressed( KeyEvent e ) {
+                tratarTeclado( e, KeyboardEventType.PRESSED );
+            }
+
+            @Override
+            public void keyReleased( KeyEvent e ) {
+                tratarTeclado( e, KeyboardEventType.RELEASED );
+            }
+            
+        });
+
     }
 
     protected static final Color LIGHTGRAY  = new Color( 200, 200, 200 );
