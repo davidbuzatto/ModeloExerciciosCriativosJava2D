@@ -362,7 +362,7 @@ public abstract class Desenhista extends JFrame {
 
     }
 
-    public Point2D drawSplineSegmentLinear( double p1x, double p1y, double p2x, double p2y, double t ) {
+    public Point2D getSplineSegmentLinear( double p1x, double p1y, double p2x, double p2y, double t ) {
         return null;
     }
 
