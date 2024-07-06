@@ -37,7 +37,6 @@ public class Main extends Desenhista {
     public void desenhar() {
 
         // lógica do desenho
-        drawRing( 100, 100, 50, 100, 45, 270, 30, BLACK );
 
     }
 
