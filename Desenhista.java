@@ -83,6 +83,42 @@ public abstract class Desenhista extends JFrame {
 
     }
 
+    protected class Point2D {
+    
+        final double x;
+        final double y;
+    
+        public Point2D( double x, double y ) {
+            this.x = x;
+            this.y = y;
+        }
+    
+        @Override
+        public String toString() {
+            return String.format( "[%.2f, %.2f]" , x, y );
+        }
+    
+    }
+
+    protected enum MouseEventType {
+
+        CLICKED,
+        PRESSED,
+        RELEASED,
+        ENTERED,
+        EXITED,
+        DRAGGED,
+        MOVED
+    
+    }
+
+    protected enum KeyboardEventType {
+    
+        PRESSED,
+        RELEASED
+    
+    }
+
     public void drawPixel( double posX, double posY, Color color ) {
         g2d.setColor( color );
         g2d.draw( new Line2D.Double( posX, posY, posX, posY ) );
@@ -155,19 +191,21 @@ public abstract class Desenhista extends JFrame {
         drawRectangle( 0, 0, getScreenWidth(), getScreenHeight(), color );
     }
 
-    public double measureText( String text, int fontSize ) {
+    public int measureText( String text, int fontSize ) {
         g2d.setFont( new Font( Font.MONOSPACED, Font.PLAIN, fontSize ) );
         return g2d.getFontMetrics().stringWidth( text );
     }
 
     public void drawCircleSectorLines( double centerX, double centerY, double radius, double startAngle, double endAngle, Color color ) {
         g2d.setColor( color );
-        g2d.draw( new Arc2D.Double( centerX - radius / 2, centerY - radius / 2, radius * 2, radius * 2, startAngle, endAngle, Arc2D.PIE ) );
+        double extent = endAngle - startAngle;
+        g2d.draw( new Arc2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2, startAngle, extent, Arc2D.PIE ) );
     }
 
     public void drawCircleSector( double centerX, double centerY, double radius, double startAngle, double endAngle, Color color ) {
         g2d.setColor( color );
-        g2d.fill( new Arc2D.Double( centerX - radius / 2, centerY - radius / 2, radius * 2, radius * 2, startAngle, endAngle, Arc2D.PIE ) );
+        double extent = endAngle - startAngle;
+        g2d.fill( new Arc2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2, startAngle, extent, Arc2D.PIE ) );
     }
 
     public void drawRingLines( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
