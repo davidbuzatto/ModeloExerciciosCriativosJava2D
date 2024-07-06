@@ -370,7 +370,12 @@ public abstract class Desenhista extends JFrame {
     }
 
     public Point2D getSplinePointLinear( double p1x, double p1y, double p2x, double p2y, double t ) {
-        return new Point2D( lerp( p1x, p2x, t ), lerp( p1y, p2y, t ) );
+
+        double x = p1x * ( 1.0f - t ) + p2x * t;
+        double y = p1y * ( 1.0f - t ) + p2y * t;
+
+        return new Point2D( x, y );
+        
     }
 
     public void drawSplineSegmentBezierQuadratic( double p1x, double p1y, double c1x, double c1y, double p2x, double p2y, double thick, Color color ) {
@@ -382,7 +387,16 @@ public abstract class Desenhista extends JFrame {
     }
 
     public Point2D getSplinePointBezierQuad( double p1x, double p1y, double c1x, double c1y, double p2x, double p2y, double t ) {
-        return null;
+
+        double a = Math.pow( 1.0 - t, 2 );
+        double b = 2.0 * ( 1.0 - t ) * t;
+        double c = Math.pow( t, 2 );
+
+        double x = a * p1x + b * c1x + c * p2x;
+        double y = a * p1y + b * c1y + c * p2y;
+
+        return new Point2D( x, y );
+
     }
 
     public void drawSplineSegmentBezierCubic( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, double thick, Color color ) {
@@ -394,7 +408,17 @@ public abstract class Desenhista extends JFrame {
     }
 
     public Point2D getSplinePointBezierCubic( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, double t ) {
-        return null;
+
+        double a = Math.pow( 1.0 - t, 3 );
+        double b = 3.0 * Math.pow( 1.0 - t, 2 ) * t;
+        double c = 3.0 * ( 1.0 - t ) * Math.pow( t, 2 );
+        double d = Math.pow( t, 3 );
+
+        double x = a * p1x + b * c1x + c * c2x + d * p2x;
+        double y = a * p1y + b * c1y + c * c2y + d * p2y;
+
+        return new Point2D( x, y );
+
     }
 
     public double lerp( double start, double end, double t ) {
