@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,9 +8,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Arc2D;
+import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
+import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.event.KeyAdapter;
@@ -359,15 +362,23 @@ public abstract class Desenhista extends JFrame {
     }
 
     public void drawSplineSegmentLinear( double p1x, double p1y, double p2x, double p2y, double thick, Color color ) {
-
+        this.g2d.setColor( color );
+        Graphics2D g2d = (Graphics2D) this.g2d.create();
+        g2d.setStroke( new BasicStroke( (float) thick, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
+        g2d.draw( new Line2D.Double( p1x, p1y, p2x, p2y ) );
+        g2d.dispose();
     }
 
-    public Point2D getSplineSegmentLinear( double p1x, double p1y, double p2x, double p2y, double t ) {
-        return null;
+    public Point2D getSplinePointLinear( double p1x, double p1y, double p2x, double p2y, double t ) {
+        return new Point2D( lerp( p1x, p2x, t ), lerp( p1y, p2y, t ) );
     }
 
     public void drawSplineSegmentBezierQuadratic( double p1x, double p1y, double c1x, double c1y, double p2x, double p2y, double thick, Color color ) {
-
+        this.g2d.setColor( color );
+        Graphics2D g2d = (Graphics2D) this.g2d.create();
+        g2d.setStroke( new BasicStroke( (float) thick, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
+        g2d.draw( new QuadCurve2D.Double( p1x, p1y, c1x, c1y, p2x, p2y ) );
+        g2d.dispose();
     }
 
     public Point2D getSplinePointBezierQuad( double p1x, double p1y, double c1x, double c1y, double p2x, double p2y, double t ) {
@@ -375,11 +386,19 @@ public abstract class Desenhista extends JFrame {
     }
 
     public void drawSplineSegmentBezierCubic( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, double thick, Color color ) {
-
+        this.g2d.setColor( color );
+        Graphics2D g2d = (Graphics2D) this.g2d.create();
+        g2d.setStroke( new BasicStroke( (float) thick, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
+        g2d.draw( new CubicCurve2D.Double( p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y ) );
+        g2d.dispose();
     }
 
     public Point2D getSplinePointBezierCubic( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, double t ) {
         return null;
+    }
+
+    public double lerp( double start, double end, double t ) {
+        return start + ( end - start ) * t;
     }
 
     private void prepararEventosPainel( PainelDesenho painelDesenho ) {
