@@ -127,14 +127,28 @@ public abstract class Desenhista extends JFrame {
         g2d.draw( new Line2D.Double( posX, posY, posX, posY ) );
     }
 
+    public void drawPixel( Point2D point, Color color ) {
+        drawPixel( point.x, point.y, color );
+    }
+
+
     public void drawLine( double startPosX, double startPosY, double endPosX, double endPosY, Color color ) {
         g2d.setColor( color );
         g2d.draw( new Line2D.Double( startPosX, startPosY, endPosX, endPosY ) );
     }
 
+    public void drawLine( Point2D startPoint, Point2D endPoint, Color color ) {
+        drawLine( startPoint.x, startPoint.y, endPoint.x, endPoint.y, color );
+    }
+
+
     public void drawRectangleLines( double posX, double posY, double width, double height, Color color ) {
         g2d.setColor( color );
         g2d.draw( new Rectangle2D.Double( posX, posY, width, height ) );
+    }
+
+    public void drawRectangleLines( Point2D pos, double width, double height, Color color ) {
+        drawRectangleLines( pos.x, pos.y, width, height, color );
     }
 
     public void drawRectangle( double posX, double posY, double width, double height, Color color ) {
@@ -142,9 +156,18 @@ public abstract class Desenhista extends JFrame {
         g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
     }
 
+    public void drawRectangle( Point2D pos, double width, double height, Color color ) {
+        drawRectangle( pos.x, pos.y, width, height, color );
+    }
+
+
     public void drawCircleLines( double centerX, double centerY, double radius, Color color ) {
         g2d.setColor( color );
         g2d.draw( new Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ) );
+    }
+
+    public void drawCircleLines( Point2D center, double radius, Color color ) {
+        drawCircleLines( center.x, center.y, radius, color );
     }
 
     public void drawCircle( double centerX, double centerY, double radius, Color color ) {
@@ -152,9 +175,18 @@ public abstract class Desenhista extends JFrame {
         g2d.fill( new Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ) );
     }
 
+    public void drawCircle( Point2D center, double radius, Color color ) {
+        drawCircle( center.x, center.y, radius, color );
+    }
+
+
     public void drawEllipseLines( double centerX, double centerY, double radiusH, double radiusV, Color color ) {
         g2d.setColor( color );
         g2d.draw( new Ellipse2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 ) );
+    }
+
+    public void drawEllipseLines( Point2D center, double radiusH, double radiusV, Color color ) {
+        drawEllipseLines( center.x, center.y, radiusH, radiusV, color );
     }
 
     public void drawEllipse( double centerX, double centerY, double radiusH, double radiusV, Color color ) {
@@ -162,15 +194,30 @@ public abstract class Desenhista extends JFrame {
         g2d.fill( new Ellipse2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 ) );
     }
 
+    public void drawEllipse( Point2D center, double radiusH, double radiusV, Color color ) {
+        drawEllipse( center.x, center.y, radiusH, radiusV, color );
+    }
+
+
     public void drawText( String text, double posX, double posY, int fontSize, Color color ) {
         g2d.setColor( color );
         g2d.setFont( new Font( Font.MONOSPACED, Font.BOLD, fontSize ) );
         g2d.drawString( text, (int) posX, (int) posY );
     }
 
+    public void drawText( String text, Point2D point, int fontSize, Color color ) {
+        drawText( text, point.x, point.y, fontSize, color );
+    }
+
     public String textFormat( String text, Object... args  ) {
         return String.format( text, args );
     }
+
+    public int measureText( String text, int fontSize ) {
+        g2d.setFont( new Font( Font.MONOSPACED, Font.PLAIN, fontSize ) );
+        return g2d.getFontMetrics().stringWidth( text );
+    }
+
 
     public int getScreenWidth() {
         return painelDesenho.getWidth();
@@ -180,9 +227,14 @@ public abstract class Desenhista extends JFrame {
         return painelDesenho.getHeight();
     }
 
+
     public void drawRectangleGradientH( double posX, double posY, double width, double height, Color color1, Color color2 ) {
         g2d.setPaint( new GradientPaint( (int) posX, (int) (posY + height / 2), color1, (int) (posX + width), (int) (posY + height / 2), color2 ) );
         g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
+    }
+
+    public void drawRectangleGradientH( Point2D pos, double width, double height, Color color1, Color color2 ) {
+        drawRectangleGradientH( pos.x, pos.y, width, height, color1, color2 );
     }
 
     public void drawRectangleGradientV( double posX, double posY, double width, double height, Color color1, Color color2 ) {
@@ -190,19 +242,24 @@ public abstract class Desenhista extends JFrame {
         g2d.fill( new Rectangle2D.Double( posX, posY, width, height ) );
     }
 
+    public void drawRectangleGradientV( Point2D pos, double width, double height, Color color1, Color color2 ) {
+        drawRectangleGradientV( pos.x, pos.y, width, height, color1, color2 );
+    }
+
+
     public void clearBackground( Color color ) {
         drawRectangle( 0, 0, getScreenWidth(), getScreenHeight(), color );
     }
 
-    public int measureText( String text, int fontSize ) {
-        g2d.setFont( new Font( Font.MONOSPACED, Font.PLAIN, fontSize ) );
-        return g2d.getFontMetrics().stringWidth( text );
-    }
 
     public void drawCircleSectorLines( double centerX, double centerY, double radius, double startAngle, double endAngle, Color color ) {
         g2d.setColor( color );
         double extent = endAngle - startAngle;
         g2d.draw( new Arc2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2, startAngle, extent, Arc2D.PIE ) );
+    }
+
+    public void drawCircleSectorLines( Point2D center, double radius, double startAngle, double endAngle, Color color ) {
+        drawCircleSectorLines( center.x, center.y, radius, startAngle, endAngle, color );
     }
 
     public void drawCircleSector( double centerX, double centerY, double radius, double startAngle, double endAngle, Color color ) {
@@ -211,13 +268,27 @@ public abstract class Desenhista extends JFrame {
         g2d.fill( new Arc2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2, startAngle, extent, Arc2D.PIE ) );
     }
 
+    public void drawCircleSector( Point2D center, double radius, double startAngle, double endAngle, Color color ) {
+        drawCircleSector( center.x, center.y, radius, startAngle, endAngle, color );
+    }
+
+
     public void drawRingLines( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
         processRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments, color, true );
+    }
+
+    public void drawRingLines( Point2D center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
+        drawRingLines( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
     }
 
     public void drawRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
         processRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments, color, false );
     }
+
+    public void drawRing( Point2D center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
+        drawRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
+    }
+
 
     private void processRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color, boolean draw ) {
 
@@ -283,9 +354,18 @@ public abstract class Desenhista extends JFrame {
 
     }
 
+    public void drawRectanglePro( Point2D pos, double width, double height, Point2D origin, double rotation, Color color ) {
+        drawRectanglePro( pos.x, pos.y, width, height, origin.x, origin.y, rotation, color );
+    }
+
+
     public void drawRectangleRoundedLines( double posX, double posY, double width, double height, double roundness, Color color ) {
         g2d.setColor( color );
         g2d.draw( new RoundRectangle2D.Double( posX, posY, width, height, roundness, roundness ) );
+    }
+
+    public void drawRectangleRoundedLines( Point2D pos, double width, double height, double roundness, Color color ) {
+        drawRectangleRoundedLines( pos.x, pos.y, width, height, roundness, color );
     }
 
     public void drawRectangleRounded( double posX, double posY, double width, double height, double roundness, Color color ) {
@@ -293,12 +373,25 @@ public abstract class Desenhista extends JFrame {
         g2d.fill( new RoundRectangle2D.Double( posX, posY, width, height, roundness, roundness ) );
     }
 
+    public void drawRectangleRounded( Point2D pos, double width, double height, double roundness, Color color ) {
+        drawRectangleRounded( pos.x, pos.y, width, height, roundness, color );
+    }
+
+
     public void drawTriangleLines( double v1x, double v1y, double v2x, double v2y, double v3x, double v3y, Color color ) {
         processTriangle( v1x, v1y, v2x, v2y, v3x, v3y, color, true );
     }
 
+    public void drawTriangleLines( Point2D v1, Point2D v2, Point2D v3, Color color ) {
+        drawTriangleLines( v1.x, v1.y, v2.x, v2.y, v3.x, v3.y, color );
+    }
+
     public void drawTriangle( double v1x, double v1y, double v2x, double v2y, double v3x, double v3y, Color color ) {
         processTriangle( v1x, v1y, v2x, v2y, v3x, v3y, color, false );
+    }
+
+    public void drawTriangle( Point2D v1, Point2D v2, Point2D v3, Color color ) {
+        drawTriangle( v1.x, v1.y, v2.x, v2.y, v3.x, v3.y, color );
     }
 
     private void processTriangle( double v1x, double v1y, double v2x, double v2y, double v3x, double v3y, Color color, boolean draw ) {
@@ -319,12 +412,21 @@ public abstract class Desenhista extends JFrame {
 
     }
 
+    
     public void drawPolyLines( double centerX, double centerY, double sides, double radius, double rotation, Color color ) {
         processPoly( centerX, centerY, sides, radius, rotation, color, true );
     }
 
+    public void drawPolyLines( Point2D center, double sides, double radius, double rotation, Color color ) {
+        drawPolyLines( center.x, center.y, sides, radius, rotation, color );
+    }
+
     public void drawPoly( double centerX, double centerY, double sides, double radius, double rotation, Color color ) {
         processPoly( centerX, centerY, sides, radius, rotation, color, false );
+    }
+
+    public void drawPoly( Point2D center, double sides, double radius, double rotation, Color color ) {
+        drawPoly( center.x, center.y, sides, radius, rotation, color );
     }
 
     private void processPoly( double centerX, double centerY, double sides, double radius, double rotation, Color color, boolean draw ) {
@@ -361,12 +463,17 @@ public abstract class Desenhista extends JFrame {
 
     }
 
+
     public void drawSplineSegmentLinear( double p1x, double p1y, double p2x, double p2y, double thick, Color color ) {
         this.g2d.setColor( color );
         Graphics2D g2d = (Graphics2D) this.g2d.create();
         g2d.setStroke( new BasicStroke( (float) thick, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
         g2d.draw( new Line2D.Double( p1x, p1y, p2x, p2y ) );
         g2d.dispose();
+    }
+
+    public void drawSplineSegmentLinear( Point2D p1, Point2D p2, double thick, Color color ) {
+        drawSplineSegmentLinear( p1.x, p1.y, p2.x, p2.y, thick, color );
     }
 
     public Point2D getSplinePointLinear( double p1x, double p1y, double p2x, double p2y, double t ) {
@@ -378,9 +485,10 @@ public abstract class Desenhista extends JFrame {
         
     }
 
-    public void atualizarDesenho() {
-        painelDesenho.repaint();
+    public Point2D getSplinePointLinear( Point2D p1, Point2D p2, double t ) {
+        return getSplinePointLinear( p1.x, p1.y, p2.x, p2.y, t )        ;
     }
+
 
     public void drawSplineSegmentBezierQuadratic( double p1x, double p1y, double c1x, double c1y, double p2x, double p2y, double thick, Color color ) {
         this.g2d.setColor( color );
@@ -388,6 +496,10 @@ public abstract class Desenhista extends JFrame {
         g2d.setStroke( new BasicStroke( (float) thick, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
         g2d.draw( new QuadCurve2D.Double( p1x, p1y, c1x, c1y, p2x, p2y ) );
         g2d.dispose();
+    }
+
+    public void drawSplineSegmentBezierQuadratic( Point2D p1, Point2D c1, Point2D p2, double thick, Color color ) {
+        drawSplineSegmentBezierQuadratic( p1.x, p1.y, c1.x, c1.y, p2.x, p2.y, thick, color );
     }
 
     public Point2D getSplinePointBezierQuad( double p1x, double p1y, double c1x, double c1y, double p2x, double p2y, double t ) {
@@ -403,12 +515,21 @@ public abstract class Desenhista extends JFrame {
 
     }
 
+    public Point2D getSplinePointBezierQuad( Point2D p1, Point2D c1, Point2D p2, double t ) {
+        return getSplinePointBezierQuad( p1.x, p1.y, c1.x, c1.y, p2.x, p2.y, t );
+    }
+
+
     public void drawSplineSegmentBezierCubic( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, double thick, Color color ) {
         this.g2d.setColor( color );
         Graphics2D g2d = (Graphics2D) this.g2d.create();
         g2d.setStroke( new BasicStroke( (float) thick, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
         g2d.draw( new CubicCurve2D.Double( p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y ) );
         g2d.dispose();
+    }
+
+    public void drawSplineSegmentBezierCubic( Point2D p1, Point2D c1, Point2D c2, Point2D p2, double thick, Color color ) {
+        drawSplineSegmentBezierCubic( p1.x, p1.y, c1.x, c1.y, c2.x, c2.y, p2.x, p2.y, thick, color );
     }
 
     public Point2D getSplinePointBezierCubic( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, double t ) {
@@ -425,9 +546,25 @@ public abstract class Desenhista extends JFrame {
 
     }
 
+    public Point2D getSplinePointBezierCubic( Point2D p1, Point2D c1, Point2D c2, Point2D p2, double t ) {
+        return getSplinePointBezierCubic( p1.x, p1.y, c1.x, c1.y, c2.x, c2.y, p2.x, p2.y, t );
+    }
+
+
     public double lerp( double start, double end, double t ) {
         return start + ( end - start ) * t;
     }
+
+    public Point2D lerp( Point2D start, Point2D end, double t ) {
+        double x = start.x + ( end.x - start.x ) * t;
+        double y = start.y + ( end.y - start.y ) * t;
+        return new Point2D( x, y );
+    }
+
+    public void atualizarDesenho() {
+        painelDesenho.repaint();
+    }
+
 
     private void prepararEventosPainel( PainelDesenho painelDesenho ) {
 
@@ -498,6 +635,7 @@ public abstract class Desenhista extends JFrame {
         });
 
     }
+
 
     protected static final Color LIGHTGRAY  = new Color( 200, 200, 200 );
     protected static final Color GRAY       = new Color( 130, 130, 130 );
