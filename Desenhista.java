@@ -88,8 +88,8 @@ public abstract class Desenhista extends JFrame {
 
     protected class Point2D {
     
-        final double x;
-        final double y;
+        double x;
+        double y;
     
         public Point2D( double x, double y ) {
             this.x = x;
@@ -376,6 +376,10 @@ public abstract class Desenhista extends JFrame {
 
         return new Point2D( x, y );
         
+    }
+
+    public void atualizarDesenho() {
+        painelDesenho.repaint();
     }
 
     public void drawSplineSegmentBezierQuadratic( double p1x, double p1y, double c1x, double c1y, double p2x, double p2y, double thick, Color color ) {
