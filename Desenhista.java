@@ -490,33 +490,33 @@ public abstract class Desenhista extends JFrame {
     }
 
 
-    public void drawSplineSegmentBezierQuadratic( double p1x, double p1y, double c1x, double c1y, double p2x, double p2y, double thick, Color color ) {
+    public void drawSplineSegmentBezierQuadratic( double p1x, double p1y, double cx, double cy, double p2x, double p2y, double thick, Color color ) {
         this.g2d.setColor( color );
         Graphics2D g2d = (Graphics2D) this.g2d.create();
         g2d.setStroke( new BasicStroke( (float) thick, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
-        g2d.draw( new QuadCurve2D.Double( p1x, p1y, c1x, c1y, p2x, p2y ) );
+        g2d.draw( new QuadCurve2D.Double( p1x, p1y, cx, cy, p2x, p2y ) );
         g2d.dispose();
     }
 
-    public void drawSplineSegmentBezierQuadratic( Point2D p1, Point2D c1, Point2D p2, double thick, Color color ) {
-        drawSplineSegmentBezierQuadratic( p1.x, p1.y, c1.x, c1.y, p2.x, p2.y, thick, color );
+    public void drawSplineSegmentBezierQuadratic( Point2D p1, Point2D c, Point2D p2, double thick, Color color ) {
+        drawSplineSegmentBezierQuadratic( p1.x, p1.y, c.x, c.y, p2.x, p2.y, thick, color );
     }
 
-    public Point2D getSplinePointBezierQuad( double p1x, double p1y, double c1x, double c1y, double p2x, double p2y, double t ) {
+    public Point2D getSplinePointBezierQuad( double p1x, double p1y, double cx, double cy, double p2x, double p2y, double t ) {
 
         double a = Math.pow( 1.0 - t, 2 );
         double b = 2.0 * ( 1.0 - t ) * t;
         double c = Math.pow( t, 2 );
 
-        double x = a * p1x + b * c1x + c * p2x;
-        double y = a * p1y + b * c1y + c * p2y;
+        double x = a * p1x + b * cx + c * p2x;
+        double y = a * p1y + b * cy + c * p2y;
 
         return new Point2D( x, y );
 
     }
 
-    public Point2D getSplinePointBezierQuad( Point2D p1, Point2D c1, Point2D p2, double t ) {
-        return getSplinePointBezierQuad( p1.x, p1.y, c1.x, c1.y, p2.x, p2.y, t );
+    public Point2D getSplinePointBezierQuad( Point2D p1, Point2D c, Point2D p2, double t ) {
+        return getSplinePointBezierQuad( p1.x, p1.y, c.x, c.y, p2.x, p2.y, t );
     }
 
 
