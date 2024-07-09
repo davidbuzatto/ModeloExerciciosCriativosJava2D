@@ -32,6 +32,14 @@ public class Main extends Engine {
     }
 
     @Override
+    public void criar() {
+
+        // cria todos os objetos e define o valor das variáveis do jogo ou 
+        // simulação
+
+    }
+
+    @Override
     public void atualizar() {
 
         // atualiza os dados do jogo ou simulação

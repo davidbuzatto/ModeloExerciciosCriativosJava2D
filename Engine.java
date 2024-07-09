@@ -60,6 +60,7 @@ public abstract class Engine extends JFrame {
     private boolean executando;
 
     public abstract void processarEntrada();
+    public abstract void criar();
     public abstract void atualizar();
     public abstract void desenhar();
 
@@ -98,6 +99,7 @@ public abstract class Engine extends JFrame {
 
         add( painelDesenho, BorderLayout.CENTER );
         pack();
+        criar();
 
         setLocationRelativeTo( null );
         setVisible( true );
@@ -126,7 +128,11 @@ public abstract class Engine extends JFrame {
 
                     tempoFrame = tempoDepois - tempoAntes;
                     tempoEsperar = tempoEsperadoFps - tempoFrame;
+
                     tempoEsperar = tempoEsperar > 0 ? tempoEsperar : 0;
+                    if ( tempoFrame < tempoEsperar ) {
+                        tempoFrame = tempoEsperar;
+                    }
 
                     try {
                         Thread.sleep( tempoEsperar );
