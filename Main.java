@@ -21,21 +21,9 @@ public class Main extends Engine {
     }
 
     @Override
-    public void processarEntrada() {
-
-        Scanner scan = new Scanner( System.in );
-
-        // entrada de dados e processamento adicional
-
-        scan.close();
-
-    }
-
-    @Override
     public void criar() {
 
-        // cria todos os objetos e define o valor das variáveis do jogo ou 
-        // simulação
+        // processa a entrada e cria os objetos do jogo ou simulação
 
     }
 
@@ -49,7 +37,7 @@ public class Main extends Engine {
     @Override
     public void desenhar() {
 
-        // lógica do desenho
+        // desenha o estado do jogo ou simulação
 
     }
 

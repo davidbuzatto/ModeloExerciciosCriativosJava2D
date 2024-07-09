@@ -39,7 +39,7 @@ public abstract class Engine extends JFrame {
     private PainelDesenho painelDesenho;
     private Graphics2D g2d;
 
-    private boolean ativarSuavizacao;
+    private boolean suavizar;
 
     // tempo antes de iniciar os processos de atualização e desenho
     private long tempoAntes;
@@ -59,16 +59,20 @@ public abstract class Engine extends JFrame {
     // flag para controle de execução da thread de desenho
     private boolean executando;
 
-    public abstract void processarEntrada();
     public abstract void criar();
     public abstract void atualizar();
     public abstract void desenhar();
 
-    public abstract void tratarMouse( MouseEvent e, MouseEventType met );
-    public abstract void tratarRodaRolagemMouse( MouseWheelEvent e );
-    public abstract void tratarTeclado( KeyEvent e, KeyboardEventType ket );
+    public void tratarMouse( MouseEvent e, MouseEventType met ) {
+    }
 
-    public Engine( int larguraJanela, int alturaJanela, String tituloJanela, boolean ativarSuavizacao, int fps ) {
+    public void tratarRodaRolagemMouse( MouseWheelEvent e ) {
+    }
+
+    public void tratarTeclado( KeyEvent e, KeyboardEventType ket ) {
+    }
+
+    public Engine( int larguraJanela, int alturaJanela, String tituloJanela, boolean suavizar, int fps ) {
 
         if ( larguraJanela <= 0 ) {
             throw new IllegalArgumentException( "largura precisa ser positiva!" );
@@ -82,12 +86,10 @@ public abstract class Engine extends JFrame {
             throw new IllegalArgumentException( "fps precisa ser positivo!" );
         }
 
-        this.ativarSuavizacao = ativarSuavizacao;
+        this.suavizar = suavizar;
         this.executando = true;
         this.fps = fps;
         tempoEsperadoFps = (long) ( 1000.0 / this.fps );
-
-        processarEntrada();
 
         setTitle( tituloJanela );
         setDefaultCloseOperation( EXIT_ON_CLOSE );
@@ -99,18 +101,17 @@ public abstract class Engine extends JFrame {
 
         add( painelDesenho, BorderLayout.CENTER );
         pack();
+
         criar();
 
         setLocationRelativeTo( null );
         setVisible( true );
 
         addWindowListener( new WindowAdapter() {
-
             @Override
             public void windowClosing( WindowEvent e ) {
                 executando = false;
             }
-            
         });
 
         new Thread( new Runnable() {
@@ -129,7 +130,9 @@ public abstract class Engine extends JFrame {
                     tempoFrame = tempoDepois - tempoAntes;
                     tempoEsperar = tempoEsperadoFps - tempoFrame;
 
-                    tempoEsperar = tempoEsperar > 0 ? tempoEsperar : 0;
+                    if ( tempoEsperar < 0 ) {
+                        tempoEsperar = 0;
+                    }
                     if ( tempoFrame < tempoEsperar ) {
                         tempoFrame = tempoEsperar;
                     }
@@ -155,7 +158,7 @@ public abstract class Engine extends JFrame {
             super.paintComponent( g );
             g2d = (Graphics2D) g.create();
             g2d.clearRect( 0, 0, getWidth(), getHeight() );
-            if ( ativarSuavizacao ) {
+            if ( suavizar ) {
                 g2d.setRenderingHint( 
                     RenderingHints.KEY_ANTIALIASING, 
                     RenderingHints.VALUE_ANTIALIAS_ON );
@@ -184,7 +187,6 @@ public abstract class Engine extends JFrame {
     }
 
     protected enum MouseEventType {
-
         CLICKED,
         PRESSED,
         RELEASED,
@@ -192,14 +194,11 @@ public abstract class Engine extends JFrame {
         EXITED,
         DRAGGED,
         MOVED
-    
     }
 
     protected enum KeyboardEventType {
-    
         PRESSED,
         RELEASED
-    
     }
 
     public void drawPixel( double posX, double posY, Color color ) {
