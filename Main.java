@@ -11,10 +11,6 @@ import java.util.Scanner;
  */
 public class Main extends Desenhista {
 
-    public static void main( String[] args ) {
-        new Main();
-    }
-
     // declaração de variáveis
 
     public Main() {
@@ -110,6 +106,10 @@ public class Main extends Desenhista {
 
         }
 
+    }
+
+    public static void main( String[] args ) {
+        new Main();
     }
 
 }
