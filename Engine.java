@@ -22,6 +22,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -32,23 +34,57 @@ import javax.swing.JPanel;
  * @author Prof. Dr. David Buzatto
  * @copyright Copyright (c) 2024
  */
-public abstract class Desenhista extends JFrame {
+public abstract class Engine extends JFrame {
 
     private PainelDesenho painelDesenho;
     private Graphics2D g2d;
 
     private boolean ativarSuavizacao;
 
+    // tempo antes de iniciar os processos de atualização e desenho
+    private long tempoAntes;
+
+    // tempo depois de realizar os processos de atualização e desenho
+    private long tempoDepois;
+
+    // tempo de um frame
+    private long tempoFrame;
+
+    // tempo esperado baseado na quantidade de quadros por segundo
+    private long tempoEsperadoFps;
+
+    // quadros por segundo
+    private int fps;
+
+    // flag para controle de execução da thread de desenho
+    private boolean executando;
+
     public abstract void processarEntrada();
+    public abstract void atualizar();
     public abstract void desenhar();
 
     public abstract void tratarMouse( MouseEvent e, MouseEventType met );
     public abstract void tratarRodaRolagemMouse( MouseWheelEvent e );
     public abstract void tratarTeclado( KeyEvent e, KeyboardEventType ket );
 
-    public Desenhista( int larguraJanela, int alturaJanela, String tituloJanela, boolean ativarSuavizacao ) {
+    public Engine( int larguraJanela, int alturaJanela, String tituloJanela, boolean ativarSuavizacao, int fps ) {
+
+        if ( larguraJanela <= 0 ) {
+            throw new IllegalArgumentException( "largura precisa ser positiva!" );
+        }
+
+        if ( alturaJanela <= 0 ) {
+            throw new IllegalArgumentException( "altura precisa ser positiva!" );
+        }
+
+        if ( fps <= 0 ) {
+            throw new IllegalArgumentException( "fps precisa ser positivo!" );
+        }
 
         this.ativarSuavizacao = ativarSuavizacao;
+        this.executando = true;
+        this.fps = fps;
+        tempoEsperadoFps = (long) ( 1000.0 / this.fps );
 
         processarEntrada();
 
@@ -65,6 +101,44 @@ public abstract class Desenhista extends JFrame {
 
         setLocationRelativeTo( null );
         setVisible( true );
+
+        addWindowListener( new WindowAdapter() {
+
+            @Override
+            public void windowClosing( WindowEvent e ) {
+                executando = false;
+            }
+            
+        });
+
+        new Thread( new Runnable() {
+            public void run() {
+
+                // tempo a esperar antes de iniciar o próximo ciclo
+                long tempoEsperar;
+
+                while ( executando ) {
+
+                    tempoAntes = System.currentTimeMillis();
+                    atualizar();
+                    painelDesenho.repaint();
+                    tempoDepois = System.currentTimeMillis();
+
+                    tempoFrame = tempoDepois - tempoAntes;
+                    tempoEsperar = tempoEsperadoFps - tempoFrame;
+                    tempoEsperar = tempoEsperar > 0 ? tempoEsperar : 0;
+
+                    try {
+                        Thread.sleep( tempoEsperar );
+                        painelDesenho.repaint();
+                    } catch ( InterruptedException exc ) {
+                        exc.printStackTrace();
+                    }
+
+                }
+                
+            }
+        }).start();
 
     }
 
@@ -561,10 +635,9 @@ public abstract class Desenhista extends JFrame {
         return new Point2D( x, y );
     }
 
-    public void atualizarDesenho() {
-        painelDesenho.repaint();
+    public double getFrameTime() {
+        return tempoFrame / 1000.0;
     }
-
 
     private void prepararEventosPainel( PainelDesenho painelDesenho ) {
 

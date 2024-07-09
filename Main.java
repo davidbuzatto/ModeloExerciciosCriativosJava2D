@@ -9,13 +9,15 @@ import java.util.Scanner;
  * @author Prof. Dr. David Buzatto
  * @copyright Copyright (c) 2024
  */
-public class Main extends Desenhista {
+public class Main extends Engine {
 
     // declaração de variáveis
 
     public Main() {
-        // cria uma janela de 800 pixels de largura por 600 de altura com suavização
-        super( 800, 600, "Título da Janela", true );
+        // cria uma janela de 800 pixels de largura por 600 de altura
+        // com suavização e que atualiza o desenho a uma taxa de 60 quadros
+        // por segundo
+        super( 800, 600, "Título da Janela", true, 60 );
     }
 
     @Override
@@ -26,6 +28,13 @@ public class Main extends Desenhista {
         // entrada de dados e processamento adicional
 
         scan.close();
+
+    }
+
+    @Override
+    public void atualizar() {
+
+        // atualiza os dados do jogo ou simulação
 
     }
 
