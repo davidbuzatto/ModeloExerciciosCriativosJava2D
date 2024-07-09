@@ -1,7 +1,6 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.util.Scanner;
 
 /**
  * Modelo para desenvolvimento de exercícios criativos Java 2D.
