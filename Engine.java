@@ -236,6 +236,26 @@ public abstract class Engine extends JFrame {
     }
 
     /**
+     * Classe estática para representação de um vetor de duas dimensões.
+     */
+    public static class Vector2D {
+    
+        double x;
+        double y;
+    
+        public Vector2D( double x, double y ) {
+            this.x = x;
+            this.y = y;
+        }
+    
+        @Override
+        public String toString() {
+            return String.format( "Vector2D[%.2f, %.2f]", x, y );
+        }
+    
+    }
+
+    /**
      * Classe estática para representação de um ponto em duas dimensões.
      */
     public static class Point2D {
@@ -635,6 +655,16 @@ public abstract class Engine extends JFrame {
     /**
      * Desenha um pixel.
      * 
+     * @param vector vetor do pixel.
+     * @param color cor de desenho.
+     */
+    public void drawPixel( Vector2D vector, Color color ) {
+        drawPixel( vector.x, vector.y, color );
+    }
+
+    /**
+     * Desenha um pixel.
+     * 
      * @param point ponto do pixel.
      * @param color cor de desenho.
      */
@@ -654,6 +684,17 @@ public abstract class Engine extends JFrame {
     public void drawLine( double startPosX, double startPosY, double endPosX, double endPosY, Color color ) {
         g2d.setColor( color );
         g2d.draw( new java.awt.geom.Line2D.Double( startPosX, startPosY, endPosX, endPosY ) );
+    }
+
+    /**
+     * Desenha uma linha.
+     * 
+     * @param startVector vetor inicial.
+     * @param endVector vetor final.
+     * @param color cor de desenho.
+     */
+    public void drawLine( Vector2D startVector, Vector2D endVector, Color color ) {
+        drawLine( startVector.x, startVector.y, endVector.x, endVector.y, color );
     }
 
     /**
@@ -699,6 +740,18 @@ public abstract class Engine extends JFrame {
      * @param height altura.
      * @param color cor de desenho.
      */
+    public void drawRectangleLines( Vector2D pos, double width, double height, Color color ) {
+        drawRectangleLines( pos.x, pos.y, width, height, color );
+    }
+    
+    /**
+     * Desenha um retângulo.
+     * 
+     * @param pos vértice superior esquerdo.
+     * @param width largura.
+     * @param height altura.
+     * @param color cor de desenho.
+     */
     public void drawRectangleLines( Point2D pos, double width, double height, Color color ) {
         drawRectangleLines( pos.x, pos.y, width, height, color );
     }
@@ -725,6 +778,18 @@ public abstract class Engine extends JFrame {
     public void drawRectangle( double posX, double posY, double width, double height, Color color ) {
         g2d.setColor( color );
         g2d.fill( new java.awt.geom.Rectangle2D.Double( posX, posY, width, height ) );
+    }
+
+    /**
+     * Pinta um retângulo.
+     * 
+     * @param pos vértice superior esquerdo.
+     * @param width largura.
+     * @param height altura.
+     * @param color cor de desenho.
+     */
+    public void drawRectangle( Vector2D pos, double width, double height, Color color ) {
+        drawRectangle( pos.x, pos.y, width, height, color );
     }
 
     /**
@@ -783,6 +848,20 @@ public abstract class Engine extends JFrame {
      * @param rotation rotação em graus.
      * @param color cor de desenho.
      */
+    public void drawRectanglePro( Vector2D pos, double width, double height, Point2D origin, double rotation, Color color ) {
+        drawRectanglePro( pos.x, pos.y, width, height, origin.x, origin.y, rotation, color );
+    }
+
+    /**
+     * Pinta um retângulo rotacionado.
+     * 
+     * @param pos vértice superior esquerdo.
+     * @param width largura.
+     * @param height algura.
+     * @param origin pivô da rotação.
+     * @param rotation rotação em graus.
+     * @param color cor de desenho.
+     */
     public void drawRectanglePro( Point2D pos, double width, double height, Point2D origin, double rotation, Color color ) {
         drawRectanglePro( pos.x, pos.y, width, height, origin.x, origin.y, rotation, color );
     }
@@ -812,6 +891,19 @@ public abstract class Engine extends JFrame {
     public void drawRectangleRoundedLines( double posX, double posY, double width, double height, double roundness, Color color ) {
         g2d.setColor( color );
         g2d.draw( new java.awt.geom.RoundRectangle2D.Double( posX, posY, width, height, roundness, roundness ) );
+    }
+
+    /**
+     * Desenha um retângulo com cantos arredondados.
+     * 
+     * @param pos ponto superior esquerdo do retângulo.
+     * @param width largura.
+     * @param height algura.
+     * @param roundness arredondamento dos cantos.
+     * @param color cor de desenho.
+     */
+    public void drawRectangleRoundedLines( Vector2D pos, double width, double height, double roundness, Color color ) {
+        drawRectangleRoundedLines( pos.x, pos.y, width, height, roundness, color );
     }
 
     /**
@@ -861,6 +953,19 @@ public abstract class Engine extends JFrame {
      * @param roundness arredondamento dos cantos.
      * @param color cor de desenho.
      */
+    public void drawRectangleRounded( Vector2D pos, double width, double height, double roundness, Color color ) {
+        drawRectangleRounded( pos.x, pos.y, width, height, roundness, color );
+    }
+
+    /**
+     * Pinta um retângulo com cantos arredondados.
+     * 
+     * @param pos ponto superior esquerdo do retângulo.
+     * @param width largura.
+     * @param height algura.
+     * @param roundness arredondamento dos cantos.
+     * @param color cor de desenho.
+     */
     public void drawRectangleRounded( Point2D pos, double width, double height, double roundness, Color color ) {
         drawRectangleRounded( pos.x, pos.y, width, height, roundness, color );
     }
@@ -888,6 +993,19 @@ public abstract class Engine extends JFrame {
     public void drawRectangleGradientH( double posX, double posY, double width, double height, Color color1, Color color2 ) {
         g2d.setPaint( new GradientPaint( (int) posX, (int) (posY + height / 2), color1, (int) (posX + width), (int) (posY + height / 2), color2 ) );
         g2d.fill( new java.awt.geom.Rectangle2D.Double( posX, posY, width, height ) );
+    }
+
+    /**
+     * Pinta um retângulo com um gradiente horizontal.
+     * 
+     * @param pos vértice superior esquerdo.
+     * @param width largura.
+     * @param height altura.
+     * @param color1 cor inicial do gradiente.
+     * @param color2 cor final do gradiente.
+     */
+    public void drawRectangleGradientH( Vector2D pos, double width, double height, Color color1, Color color2 ) {
+        drawRectangleGradientH( pos.x, pos.y, width, height, color1, color2 );
     }
 
     /**
@@ -945,6 +1063,19 @@ public abstract class Engine extends JFrame {
     /**
      * Pinta um retângulo com um gradiente vertical.
      * 
+     * @param pos vértice superior esquerdo.
+     * @param width largura.
+     * @param height altura.
+     * @param color1 cor inicial do gradiente.
+     * @param color2 cor final do gradiente.
+     */
+    public void drawRectangleGradientV( Vector2D pos, double width, double height, Color color1, Color color2 ) {
+        drawRectangleGradientV( pos.x, pos.y, width, height, color1, color2 );
+    }
+
+    /**
+     * Pinta um retângulo com um gradiente vertical.
+     * 
      * @param rectangle um retângulo.
      * @param color1 cor inicial do gradiente.
      * @param color2 cor final do gradiente.
@@ -964,6 +1095,17 @@ public abstract class Engine extends JFrame {
     public void drawCircleLines( double centerX, double centerY, double radius, Color color ) {
         g2d.setColor( color );
         g2d.draw( new java.awt.geom.Ellipse2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2 ) );
+    }
+
+    /**
+     * Desenha um círculo.
+     * 
+     * @param center centro do círculo.
+     * @param radius raio.
+     * @param color cor de desenho.
+     */
+    public void drawCircleLines( Vector2D center, double radius, Color color ) {
+        drawCircleLines( center.x, center.y, radius, color );
     }
 
     /**
@@ -1007,6 +1149,17 @@ public abstract class Engine extends JFrame {
      * @param radius raio.
      * @param color cor de desenho.
      */
+    public void drawCircle( Vector2D center, double radius, Color color ) {
+        drawCircle( center.x, center.y, radius, color );
+    }
+
+    /**
+     * Pinta um círculo.
+     * 
+     * @param center centro do círculo.
+     * @param radius raio.
+     * @param color cor de desenho.
+     */
     public void drawCircle( Point2D center, double radius, Color color ) {
         drawCircle( center.x, center.y, radius, color );
     }
@@ -1033,6 +1186,18 @@ public abstract class Engine extends JFrame {
     public void drawEllipseLines( double centerX, double centerY, double radiusH, double radiusV, Color color ) {
         g2d.setColor( color );
         g2d.draw( new java.awt.geom.Ellipse2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2 ) );
+    }
+
+    /**
+     * Desenha uma elipse.
+     * 
+     * @param center centro da elipse.
+     * @param radiusH raio horizontal.
+     * @param radiusV raio vertical.
+     * @param color cor de desenho.
+     */
+    public void drawEllipseLines( Vector2D center, double radiusH, double radiusV, Color color ) {
+        drawEllipseLines( center.x, center.y, radiusH, radiusV, color );
     }
 
     /**
@@ -1079,6 +1244,18 @@ public abstract class Engine extends JFrame {
      * @param radiusV raio vertical.
      * @param color cor de desenho.
      */
+    public void drawEllipse( Vector2D center, double radiusH, double radiusV, Color color ) {
+        drawEllipse( center.x, center.y, radiusH, radiusV, color );
+    }
+
+    /**
+     * Pinta uma elipse.
+     * 
+     * @param center centro da elipse.
+     * @param radiusH raio horizontal.
+     * @param radiusV raio vertical.
+     * @param color cor de desenho.
+     */
     public void drawEllipse( Point2D center, double radiusH, double radiusV, Color color ) {
         drawEllipse( center.x, center.y, radiusH, radiusV, color );
     }
@@ -1107,6 +1284,19 @@ public abstract class Engine extends JFrame {
         g2d.setColor( color );
         double extent = endAngle - startAngle;
         g2d.draw( new java.awt.geom.Arc2D.Double( centerX - radius, centerY - radius, radius * 2, radius * 2, startAngle, extent, java.awt.geom.Arc2D.PIE ) );
+    }
+
+    /**
+     * Desenha um setor circular.
+     * 
+     * @param center ponto do centro.
+     * @param radius raio.
+     * @param startAngle ângulo inicial.
+     * @param endAngle ângulo final.
+     * @param color cor de desenho.
+     */
+    public void drawCircleSectorLines( Vector2D center, double radius, double startAngle, double endAngle, Color color ) {
+        drawCircleSectorLines( center.x, center.y, radius, startAngle, endAngle, color );
     }
 
     /**
@@ -1159,6 +1349,19 @@ public abstract class Engine extends JFrame {
      * @param endAngle ângulo final.
      * @param color cor de desenho.
      */
+    public void drawCircleSector( Vector2D center, double radius, double startAngle, double endAngle, Color color ) {
+        drawCircleSector( center.x, center.y, radius, startAngle, endAngle, color );
+    }
+
+    /**
+     * Pinta um setor circular.
+     * 
+     * @param center ponto do centro.
+     * @param radius raio.
+     * @param startAngle ângulo inicial.
+     * @param endAngle ângulo final.
+     * @param color cor de desenho.
+     */
     public void drawCircleSector( Point2D center, double radius, double startAngle, double endAngle, Color color ) {
         drawCircleSector( center.x, center.y, radius, startAngle, endAngle, color );
     }
@@ -1190,6 +1393,20 @@ public abstract class Engine extends JFrame {
         g2d.setColor( color );
         double extent = endAngle - startAngle;
         g2d.draw( new java.awt.geom.Arc2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2, startAngle, extent, java.awt.geom.Arc2D.PIE ) );
+    }
+
+    /**
+     * Desenha um setor de uma elipse.
+     * 
+     * @param center ponto do centro.
+     * @param radiusH raio horizontal.
+     * @param radiusV raio vertical.
+     * @param startAngle ângulo inicial.
+     * @param endAngle ângulo final.
+     * @param color cor de desenho.
+     */
+    public void drawEllipseSectorLines( Vector2D center, double radiusH, double radiusV, double startAngle, double endAngle, Color color ) {
+        drawEllipseSectorLines( center.x, center.y, radiusH, radiusV, startAngle, endAngle, color );
     }
 
     /**
@@ -1245,6 +1462,20 @@ public abstract class Engine extends JFrame {
      * @param endAngle ângulo final.
      * @param color cor de desenho.
      */
+    public void drawEllipseSector( Vector2D center, double radiusH, double radiusV, double startAngle, double endAngle, Color color ) {
+        drawEllipseSector( center.x, center.y, radiusH, radiusV, startAngle, endAngle, color );
+    }
+
+    /**
+     * Pinta um setor de uma elipse.
+     * 
+     * @param center ponto do centro.
+     * @param radiusH raio horizontal.
+     * @param radiusV raio vertical.
+     * @param startAngle ângulo inicial.
+     * @param endAngle ângulo final.
+     * @param color cor de desenho.
+     */
     public void drawEllipseSector( Point2D center, double radiusH, double radiusV, double startAngle, double endAngle, Color color ) {
         drawEllipseSector( center.x, center.y, radiusH, radiusV, startAngle, endAngle, color );
     }
@@ -1276,6 +1507,20 @@ public abstract class Engine extends JFrame {
         g2d.setColor( color );
         double extent = endAngle - startAngle;
         g2d.draw( new java.awt.geom.Arc2D.Double( centerX - radiusH, centerY - radiusV, radiusH * 2, radiusV * 2, startAngle, extent, java.awt.geom.Arc2D.CHORD ) );
+    }
+
+    /**
+     * Desenha um arco.
+     * 
+     * @param center ponto do centro.
+     * @param radiusH raio horizontal.
+     * @param radiusV raio vertical.
+     * @param startAngle ângulo inicial.
+     * @param endAngle ângulo final.
+     * @param color cor de desenho.
+     */
+    public void drawArcLines( Vector2D center, double radiusH, double radiusV, double startAngle, double endAngle, Color color ) {
+        drawArcLines( center.x, center.y, radiusH, radiusV, startAngle, endAngle, color );
     }
 
     /**
@@ -1331,6 +1576,21 @@ public abstract class Engine extends JFrame {
      * @param segments quantidade de segmentos.
      * @param color cor de desenho.
      */
+    public void drawRingLines( Vector2D center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
+        drawRingLines( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
+    }
+
+    /**
+     * Desenha um anel.
+     * 
+     * @param center centro do anel.
+     * @param innerRadius raio interno.
+     * @param outerRadius raio externo.
+     * @param startAngle ângulo inicial em graus.
+     * @param endAngle ângulo final em graus.
+     * @param segments quantidade de segmentos.
+     * @param color cor de desenho.
+     */
     public void drawRingLines( Point2D center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
         drawRingLines( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
     }
@@ -1359,6 +1619,21 @@ public abstract class Engine extends JFrame {
      */
     public void drawRing( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
         processRing( centerX, centerY, innerRadius, outerRadius, startAngle, endAngle, segments, color, false );
+    }
+
+    /**
+     * Pinta um anel.
+     * 
+     * @param center centro do anel.
+     * @param innerRadius raio interno.
+     * @param outerRadius raio externo.
+     * @param startAngle ângulo inicial em graus.
+     * @param endAngle ângulo final em graus.
+     * @param segments quantidade de segmentos.
+     * @param color cor de desenho.
+     */
+    public void drawRing( Vector2D center, double innerRadius, double outerRadius, double startAngle, double endAngle, int segments, Color color ) {
+        drawRing( center.x, center.y, innerRadius, outerRadius, startAngle, endAngle, segments, color );
     }
 
     /**
@@ -1464,6 +1739,18 @@ public abstract class Engine extends JFrame {
      * @param v3 terceiro vértice.
      * @param color cor de desenho.
      */
+    public void drawTriangleLines( Vector2D v1, Vector2D v2, Vector2D v3, Color color ) {
+        drawTriangleLines( v1.x, v1.y, v2.x, v2.y, v3.x, v3.y, color );
+    }
+
+    /**
+     * Desenha um triângulo.
+     * 
+     * @param v1 primeiro vértice.
+     * @param v2 segundo vértice.
+     * @param v3 terceiro vértice.
+     * @param color cor de desenho.
+     */
     public void drawTriangleLines( Point2D v1, Point2D v2, Point2D v3, Color color ) {
         drawTriangleLines( v1.x, v1.y, v2.x, v2.y, v3.x, v3.y, color );
     }
@@ -1491,6 +1778,18 @@ public abstract class Engine extends JFrame {
      */
     public void drawTriangle( double v1x, double v1y, double v2x, double v2y, double v3x, double v3y, Color color ) {
         processTriangle( v1x, v1y, v2x, v2y, v3x, v3y, color, false );
+    }
+
+    /**
+     * Pinta um triângulo.
+     * 
+     * @param v1 primeiro vértice.
+     * @param v2 segundo vértice.
+     * @param v3 terceiro vértice.
+     * @param color cor de desenho.
+     */
+    public void drawTriangle( Vector2D v1, Vector2D v2, Vector2D v3, Color color ) {
+        drawTriangle( v1.x, v1.y, v2.x, v2.y, v3.x, v3.y, color );
     }
 
     /**
@@ -1559,6 +1858,19 @@ public abstract class Engine extends JFrame {
      * @param rotation rotação em graus.
      * @param color cor de desenho.
      */
+    public void drawPolyLines( Vector2D center, double sides, double radius, double rotation, Color color ) {
+        drawPolyLines( center.x, center.y, sides, radius, rotation, color );
+    }
+
+    /**
+     * Desenha um polígono regular.
+     * 
+     * @param center centro do polígono.
+     * @param sides quantidade de lados.
+     * @param radius raio.
+     * @param rotation rotação em graus.
+     * @param color cor de desenho.
+     */
     public void drawPolyLines( Point2D center, double sides, double radius, double rotation, Color color ) {
         drawPolyLines( center.x, center.y, sides, radius, rotation, color );
     }
@@ -1585,6 +1897,19 @@ public abstract class Engine extends JFrame {
      */
     public void drawPoly( double centerX, double centerY, double sides, double radius, double rotation, Color color ) {
         processPoly( centerX, centerY, sides, radius, rotation, color, false );
+    }
+
+    /**
+     * Pinta um polígono regular.
+     * 
+     * @param center centro do polígono.
+     * @param sides quantidade de lados.
+     * @param radius raio.
+     * @param rotation rotação em graus.
+     * @param color cor de desenho.
+     */
+    public void drawPoly( Vector2D center, double sides, double radius, double rotation, Color color ) {
+        drawPoly( center.x, center.y, sides, radius, rotation, color );
     }
 
     /**
@@ -1699,6 +2024,18 @@ public abstract class Engine extends JFrame {
      * @param thick grossura da spline.
      * @param color cor de desenhho.
      */
+    public void drawSplineSegmentLinear( Vector2D p1, Vector2D p2, double thick, Color color ) {
+        drawSplineSegmentLinear( p1.x, p1.y, p2.x, p2.y, thick, color );
+    }
+
+    /**
+     * Desenha uma spline linear.
+     * 
+     * @param p1 ponto inicial.
+     * @param p2 ponto final.
+     * @param thick grossura da spline.
+     * @param color cor de desenhho.
+     */
     public void drawSplineSegmentLinear( Point2D p1, Point2D p2, double thick, Color color ) {
         drawSplineSegmentLinear( p1.x, p1.y, p2.x, p2.y, thick, color );
     }
@@ -1742,6 +2079,18 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
+    public Point2D getSplinePointLinear( Vector2D p1, Vector2D p2, double t ) {
+        return getSplinePointLinear( p1.x, p1.y, p2.x, p2.y, t )        ;
+    }
+
+    /**
+     * Obtém um ponto dentro de uma spline linear.
+     * 
+     * @param p1 ponto final.
+     * @param p2 ponto final.
+     * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
+     * @return O ponto dentro da spline.
+     */
     public Point2D getSplinePointLinear( Point2D p1, Point2D p2, double t ) {
         return getSplinePointLinear( p1.x, p1.y, p2.x, p2.y, t )        ;
     }
@@ -1775,6 +2124,19 @@ public abstract class Engine extends JFrame {
         g2d.setStroke( new BasicStroke( (float) thick, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
         g2d.draw( new java.awt.geom.QuadCurve2D.Double( p1x, p1y, cx, cy, p2x, p2y ) );
         g2d.dispose();
+    }
+
+    /**
+     * Desenha uma spline quadrática (curva Bézier quadrática).
+     * 
+     * @param p1 ponto inicial.
+     * @param c ponto de controle.
+     * @param p2 ponto final.
+     * @param thick grossura da spline.
+     * @param color cor de desenhho.
+     */
+    public void drawSplineSegmentBezierQuadratic( Vector2D p1, Vector2D c, Vector2D p2, double thick, Color color ) {
+        drawSplineSegmentBezierQuadratic( p1.x, p1.y, c.x, c.y, p2.x, p2.y, thick, color );
     }
 
     /**
@@ -1835,6 +2197,19 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
+    public Point2D getSplinePointBezierQuad( Vector2D p1, Vector2D c, Vector2D p2, double t ) {
+        return getSplinePointBezierQuad( p1.x, p1.y, c.x, c.y, p2.x, p2.y, t );
+    }
+
+    /**
+     * Obtém um ponto dentro de uma spline quadrática (curva Bézier quadrática).
+     * 
+     * @param p1 ponto inicial.
+     * @param c ponto de controle.
+     * @param p2 ponto final.
+     * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
+     * @return O ponto dentro da spline.
+     */
     public Point2D getSplinePointBezierQuad( Point2D p1, Point2D c, Point2D p2, double t ) {
         return getSplinePointBezierQuad( p1.x, p1.y, c.x, c.y, p2.x, p2.y, t );
     }
@@ -1870,6 +2245,20 @@ public abstract class Engine extends JFrame {
         g2d.setStroke( new BasicStroke( (float) thick, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
         g2d.draw( new java.awt.geom.CubicCurve2D.Double( p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y ) );
         g2d.dispose();
+    }
+
+    /**
+     * Desenha uma spline cúbica (curva Bézier cúbica).
+     * 
+     * @param p1 ponto inicial.
+     * @param c1 primeiro ponto de controle.
+     * @param c2 segundo ponto de controle.
+     * @param p2 ponto final.
+     * @param thick grossura da spline.
+     * @param color cor de desenhho.
+     */
+    public void drawSplineSegmentBezierCubic( Vector2D p1, Vector2D c1, Vector2D c2, Vector2D p2, double thick, Color color ) {
+        drawSplineSegmentBezierCubic( p1.x, p1.y, c1.x, c1.y, c2.x, c2.y, p2.x, p2.y, thick, color );
     }
 
     /**
@@ -1935,6 +2324,20 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
+    public Point2D getSplinePointBezierCubic( Vector2D p1, Vector2D c1, Vector2D c2, Vector2D p2, double t ) {
+        return getSplinePointBezierCubic( p1.x, p1.y, c1.x, c1.y, c2.x, c2.y, p2.x, p2.y, t );
+    }
+
+    /**
+     * Obtém um ponto dentro de uma spline cúbica (curva Bézier cúbica).
+     * 
+     * @param p1 ponto inicial.
+     * @param c1 primeiro ponto de controle.
+     * @param c2 segundo ponto de controle.
+     * @param p2 ponto final.
+     * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
+     * @return O ponto dentro da spline.
+     */
     public Point2D getSplinePointBezierCubic( Point2D p1, Point2D c1, Point2D c2, Point2D p2, double t ) {
         return getSplinePointBezierCubic( p1.x, p1.y, c1.x, c1.y, c2.x, c2.y, p2.x, p2.y, t );
     }
@@ -1969,6 +2372,18 @@ public abstract class Engine extends JFrame {
         g2d.setColor( color );
         g2d.setFont( new Font( Font.MONOSPACED, Font.BOLD, fontSize ) );
         g2d.drawString( text, (int) posX, (int) posY );
+    }
+
+    /**
+     * Desenha um texto.
+     * 
+     * @param text o texto a ser desenhado.
+     * @param point ponto do inicio do desenho do texto.
+     * @param fontSize o tamanho da fonte.
+     * @param color cor de desenho.
+     */
+    public void drawText( String text, Vector2D point, int fontSize, Color color ) {
+        drawText( text, point.x, point.y, fontSize, color );
     }
 
     /**
@@ -2022,6 +2437,20 @@ public abstract class Engine extends JFrame {
      */
     public double lerp( double start, double end, double t ) {
         return start + ( end - start ) * t;
+    }
+
+    /**
+     * Realiza a interpolação linear entre dois vetores.
+     * 
+     * @param start ponto inicial.
+     * @param end ponto final.
+     * @param t quantidade (0 a 1)
+     * @return Um ponto que representa a interpolação linear entre dois pontos.
+     */
+    public Vector2D lerp( Vector2D start, Vector2D end, double t ) {
+        double x = start.x + ( end.x - start.x ) * t;
+        double y = start.y + ( end.y - start.y ) * t;
+        return new Vector2D( x, y );
     }
 
     /**
