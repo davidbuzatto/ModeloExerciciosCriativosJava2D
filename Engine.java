@@ -2062,7 +2062,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointLinear( double p1x, double p1y, double p2x, double p2y, double t ) {
+    public static Point2D getSplinePointLinear( double p1x, double p1y, double p2x, double p2y, double t ) {
 
         double x = p1x * ( 1.0f - t ) + p2x * t;
         double y = p1y * ( 1.0f - t ) + p2y * t;
@@ -2079,7 +2079,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointLinear( Vector2D p1, Vector2D p2, double t ) {
+    public static Point2D getSplinePointLinear( Vector2D p1, Vector2D p2, double t ) {
         return getSplinePointLinear( p1.x, p1.y, p2.x, p2.y, t )        ;
     }
 
@@ -2091,7 +2091,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointLinear( Point2D p1, Point2D p2, double t ) {
+    public static Point2D getSplinePointLinear( Point2D p1, Point2D p2, double t ) {
         return getSplinePointLinear( p1.x, p1.y, p2.x, p2.y, t )        ;
     }
 
@@ -2102,7 +2102,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointLinear( Line2D line, double t ) {
+    public static Point2D getSplinePointLinear( Line2D line, double t ) {
         return getSplinePointLinear( line.x1, line.y1, line.x2, line.y2, t );
     }
 
@@ -2175,7 +2175,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointBezierQuad( double p1x, double p1y, double cx, double cy, double p2x, double p2y, double t ) {
+    public static Point2D getSplinePointBezierQuad( double p1x, double p1y, double cx, double cy, double p2x, double p2y, double t ) {
 
         double a = Math.pow( 1.0 - t, 2 );
         double b = 2.0 * ( 1.0 - t ) * t;
@@ -2197,7 +2197,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointBezierQuad( Vector2D p1, Vector2D c, Vector2D p2, double t ) {
+    public static Point2D getSplinePointBezierQuad( Vector2D p1, Vector2D c, Vector2D p2, double t ) {
         return getSplinePointBezierQuad( p1.x, p1.y, c.x, c.y, p2.x, p2.y, t );
     }
 
@@ -2210,7 +2210,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointBezierQuad( Point2D p1, Point2D c, Point2D p2, double t ) {
+    public static Point2D getSplinePointBezierQuad( Point2D p1, Point2D c, Point2D p2, double t ) {
         return getSplinePointBezierQuad( p1.x, p1.y, c.x, c.y, p2.x, p2.y, t );
     }
     
@@ -2221,7 +2221,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointBezierQuad( QuadCurve2D quadCurve, double t ) {
+    public static Point2D getSplinePointBezierQuad( QuadCurve2D quadCurve, double t ) {
         return getSplinePointBezierQuad( quadCurve.x1, quadCurve.y1, quadCurve.cx, quadCurve.cy, quadCurve.x2, quadCurve.y2, t );
     }
 
@@ -2300,7 +2300,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointBezierCubic( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, double t ) {
+    public static Point2D getSplinePointBezierCubic( double p1x, double p1y, double c1x, double c1y, double c2x, double c2y, double p2x, double p2y, double t ) {
 
         double a = Math.pow( 1.0 - t, 3 );
         double b = 3.0 * Math.pow( 1.0 - t, 2 ) * t;
@@ -2324,7 +2324,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointBezierCubic( Vector2D p1, Vector2D c1, Vector2D c2, Vector2D p2, double t ) {
+    public static Point2D getSplinePointBezierCubic( Vector2D p1, Vector2D c1, Vector2D c2, Vector2D p2, double t ) {
         return getSplinePointBezierCubic( p1.x, p1.y, c1.x, c1.y, c2.x, c2.y, p2.x, p2.y, t );
     }
 
@@ -2338,7 +2338,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointBezierCubic( Point2D p1, Point2D c1, Point2D c2, Point2D p2, double t ) {
+    public static Point2D getSplinePointBezierCubic( Point2D p1, Point2D c1, Point2D c2, Point2D p2, double t ) {
         return getSplinePointBezierCubic( p1.x, p1.y, c1.x, c1.y, c2.x, c2.y, p2.x, p2.y, t );
     }
 
@@ -2349,7 +2349,7 @@ public abstract class Engine extends JFrame {
      * @param t Um valor de 0 a 1 que representa a posição, em porcentagem, do ponto desejado.
      * @return O ponto dentro da spline.
      */
-    public Point2D getSplinePointBezierCubic( CubicCurve2D cubicCurve, double t ) {
+    public static Point2D getSplinePointBezierCubic( CubicCurve2D cubicCurve, double t ) {
         return getSplinePointBezierCubic( cubicCurve.x1, cubicCurve.y1, cubicCurve.c1x, cubicCurve.c1y, cubicCurve.c2x, cubicCurve.c2y, cubicCurve.x2, cubicCurve.y2, t );
     }
 
@@ -2417,7 +2417,7 @@ public abstract class Engine extends JFrame {
      * @param args Uma série de argumentos que serão inseridos no padrão.
      * @return o texto formatado.
      */
-    public String textFormat( String text, Object... args  ) {
+    public static String textFormat( String text, Object... args  ) {
         return String.format( text, args );
     }
 
@@ -2882,6 +2882,26 @@ public abstract class Engine extends JFrame {
      */
     public void clearBackground( Color color ) {
         drawRectangle( 0, 0, getScreenWidth(), getScreenHeight(), color );
+    }
+
+    /**
+     * Cria um ponto 2D usando um vetor 2D.
+     * 
+     * @param v Um vetor 2D.
+     * @return Um ponto 2D.
+     */
+    public static Point2D vector2DtoPoint2D( Vector2D v ) {
+        return new Point2D( v.x, v.y );
+    }
+
+    /**
+     * Cria um vetor 2D usando um ponto 2D.
+     * 
+     * @param p Um ponto 2D.
+     * @return Um vetor 2D.
+     */
+    public static Vector2D point2DtoVector2D( Point2D p ) {
+        return new Vector2D( p.x, p.y );
     }
 
 
