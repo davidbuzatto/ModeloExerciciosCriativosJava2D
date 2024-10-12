@@ -16,9 +16,11 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  * Engine simples para criação de jogos ou simulações usando Java 2D.
@@ -169,8 +171,14 @@ public abstract class Engine extends JFrame {
                 while ( executando ) {
 
                     tempoAntes = System.currentTimeMillis();
-                    atualizar();
-                    painelDesenho.repaint();
+                    try {
+                        SwingUtilities.invokeAndWait( () -> {
+                            atualizar();
+                            painelDesenho.repaint();
+                        });
+                    } catch ( InterruptedException | InvocationTargetException exc ) {
+                        exc.printStackTrace();
+                    }
                     tempoDepois = System.currentTimeMillis();
 
                     // quanto um frame demorou?
@@ -196,7 +204,6 @@ public abstract class Engine extends JFrame {
 
                     try {
                         Thread.sleep( tempoEsperar );
-                        painelDesenho.repaint();
                     } catch ( InterruptedException exc ) {
                         exc.printStackTrace();
                     }
@@ -1810,7 +1817,7 @@ public abstract class Engine extends JFrame {
      * @param triangle um triângulo.
      * @param color cor de desenho.
      */
-    public void drawTriangles( Triangle2D triangle, Color color ) {
+    public void drawTriangle( Triangle2D triangle, Color color ) {
         drawTriangle( triangle.x1, triangle.y1, triangle.x2, triangle.y2, triangle.x3, triangle.y3, color );
     }
 
