@@ -1,0 +1,12 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar"
+        ],
+        "sources": {
+            "lib/JSGE-v1.0.3-bin.jar": "lib/JSGE-v1.0.3-src.jar"
+        }
+    }
+}
