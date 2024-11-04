@@ -33,9 +33,11 @@ public class Main extends EngineFrame {
 
     /**
      * Atualiza os objetos/contextos/variáveis do jogo ou simulação.
+     * O parâmetro delta contém o tempo que passou entre o quadro
+     * anterior e o quadro atual.
      */
     @Override
-    public void update() {
+    public void update( double delta ) {
     }
 
     /**
