@@ -4,6 +4,9 @@
     "java.project.referencedLibraries": {
         "include": [
             "lib/**/*.jar"
-        ]
+        ],
+        "sources": {
+            "lib/JSGE-v1.3.0-bin.jar": "lib/JSGE-v1.3.0-src.jar"
+        }
     }
 }
