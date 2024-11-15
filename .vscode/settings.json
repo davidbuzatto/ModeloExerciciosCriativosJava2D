@@ -1,12 +1,13 @@
 {
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
+    "java.debug.settings.vmArgs": "-Djava.library.path=lib/jinput-2.0.10-natives-all",
     "java.project.referencedLibraries": {
         "include": [
             "lib/**/*.jar"
         ],
         "sources": {
-            "lib/JSGE-v1.3.0-bin.jar": "lib/JSGE-v1.3.0-src.jar"
+            "lib/JSGE-v1.4.1-bin.jar": "lib/JSGE-v1.4.1-src.jar"
         }
-    }
+    }    
 }
