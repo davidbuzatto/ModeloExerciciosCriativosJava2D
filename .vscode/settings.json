@@ -7,7 +7,7 @@
             "lib/**/*.jar"
         ],
         "sources": {
-            "lib/JSGE-v1.4.4-bin.jar": "lib/JSGE-v1.4.4-src.jar"
+            "lib/JSGE-v1.4.5-bin.jar": "lib/JSGE-v1.4.5-src.jar"
         }
     }    
 }
